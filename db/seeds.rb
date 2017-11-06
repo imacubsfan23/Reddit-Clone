@@ -15,11 +15,15 @@ posts = Post.all
     )
 end
 
-#unique post
-unique_post = Post.find_or_create_by!(title:"Unique Post Title", body:"Unique Post Body")
-#unique comment
-Comment.find_or_create_by!(post:unique_post, body:"Unique Comment Body")
+100.times do
+    Question.create!(
+        title: RandomData.random_sentence,
+        body: RandomData.random_paragraph,
+        resolved: false
+    )
+end
 
 puts "Seed finished"
 puts "#{Post.count} posts created"
 puts "#{Comment.count} comments created"
+puts "#{Question.count} questions created"
