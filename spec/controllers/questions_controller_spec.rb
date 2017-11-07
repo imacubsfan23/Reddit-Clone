@@ -57,6 +57,18 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
   
+  describe "GET #edit" do
+    it "returns http success" do
+      get :edit, params: { id: my_question.id }
+      expect(response).to have_http_status(:success)
+    end
+    
+    it "renders the #edit view" do 
+      get :edit, params: { id: my_question.id }
+      expect(response).to render_template :edit
+    end
+  end
+  
   describe "POST create" do 
     it "increases the number of Questions by 1" do 
       expect{ post :create, params: { question: 
@@ -76,18 +88,6 @@ RSpec.describe QuestionsController, type: :controller do
     it "redirects to the new post" do 
       post :create, params: { question: { title: RandomData.random_sentence, body: RandomData.random_paragraph, resolved: false } }
       expect(response).to redirect_to Question.last
-    end
-  end
-  
-  describe "GET #edit" do
-    it "returns http success" do
-      get :edit
-      expect(response).to have_http_status(:success)
-    end
-    
-    it "renders the #edit view" do 
-      get :edit, params: { id: my_question.id }
-      expect(response).to render_template :edit
     end
   end
   
