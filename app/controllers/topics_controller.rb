@@ -26,31 +26,46 @@ class TopicsController < ApplicationController
     end
     
     def edit
-        @topic = Topic.find(params[:id])
+        unless current_user.admin? || current_user.moderator?
+            flash[:alert] = "You must be an admin or moderator to do that."
+            redirect_to topics_path
+        else
+            @topic = Topic.find(params[:id])
+        end
     end
     
     def update
         @topic = Topic.find(params[:id])
         @topic.assign_attributes(topic_params)
         
-        if @topic.save
-            flash[:notice] = "Topic was updated."
-            redirect_to @topic
+        unless current_user.admin? || current_user.moderator?
+            flash[:alert] = "You must be an admin or moderator to do that."
+            redirect_to topics_path
         else
-            flash.now[:alert] = "Error saving topic. Please try again."
-            render :edit
+            if @topic.save
+                flash[:notice] = "Topic was updated."
+                redirect_to @topic
+            else
+                flash.now[:alert] = "Error saving topic. Please try again."
+                render :edit
+            end
         end
     end
     
     def destroy
         @topic = Topic.find(params[:id])
         
-        if @topic.destroy
-            flash[:notice] = "#{@topic.name} was deleted successfully."
-            redirect_to action: :index
+        unless current_user.admin?
+            flash[:alert] = "You must be an admin to do that."
+            redirect_to topics_path
         else
-            flash.now[:alert] = "There was an error deleting the topic."
-            render :show
+            if @topic.destroy
+                flash[:notice] = "#{@topic.name} was deleted successfully."
+                redirect_to action: :index
+            else
+                flash.now[:alert] = "There was an error deleting the topic."
+                render :show
+            end
         end
     end
     
@@ -60,8 +75,8 @@ class TopicsController < ApplicationController
     end
     
     def authorize_user
-        unless current_user.admin?
-            flash[:alert] = "You must be an admin to do that."
+        unless current_user.admin? || current_user.moderator?
+            flash[:alert] = "You must be an admin or moderator to do that."
             redirect_to topics_path
         end
     end
