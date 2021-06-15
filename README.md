@@ -1,5 +1,5 @@
 ## Production Site: https://bloccit-imacubsfan23.herokuapp.com
 
-# Bloccit
+# Reddit Clone
 
-A clone of Reddit made during my time at Bloc
+A clone of Reddit made with Ruby on Rails
