@@ -1,4 +1,4 @@
-## Production Site: https://bloccit-imacubsfan23.herokuapp.com
+## Production Site: https://redditclone-imacubsfan23.herokuapp.com
 
 # Reddit Clone
 
