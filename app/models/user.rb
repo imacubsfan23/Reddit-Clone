@@ -13,8 +13,8 @@ class User < ApplicationRecord
               
     validates :password, 
               presence: true, 
-              length: { minimum: 6 }, 
-              if: "password_digest.nil?"
+              length: { minimum: 6 }
+              
     validates :password, 
               length: { minimum: 6 }, 
               allow_blank: true
